@@ -4,7 +4,7 @@ use eframe::egui;
 use crate::egui::Key;
 
 use windows_sys::{
-    Win32::Foundation::*,Win32::UI::WindowsAndMessaging::*,
+    Win32::Foundation::*, Win32::UI::WindowsAndMessaging::*,
 };
 
 fn main() {
@@ -34,14 +34,17 @@ struct MouseControl {
 impl eframe::App for MouseControl {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
-            ui.heading("Mouse Control 🚀");
-            ui.horizontal(|ui| {});
-            if ui.button("Center cursor").clicked() {
-                center_mouse(self);
-            }
-            if ui.button("Lock cursor").clicked() {
-                self.locked = !self.locked;
-            }
+            ui.with_layout(egui::Layout::top_down_justified(egui::Align::Center), |ui| {
+                ui.heading("Mouse Control 🚀");
+                ui.separator();
+                ui.horizontal(|ui| {});
+                if ui.button("Center cursor").clicked() {
+                    center_mouse(self);
+                }
+                if ui.button("Lock cursor").clicked() {
+                    self.locked = !self.locked;
+                }
+            })
         });
         if ctx.input().key_pressed(Key::End) {
             self.locked = !self.locked;
